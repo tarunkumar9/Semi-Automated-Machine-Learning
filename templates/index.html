@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+
+	<!-- <a href="{{ url_for('logout')}}" data-toggle="modal" data-target="#logoutModal">logout</a>-->
+<html lang="en" >
+<head>
+<meta charset="UTF-8">
+<title>CodePen - Login Form</title>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link href="https://fonts.googleapis.com/css2?family=Quicksand&family=Russo+One&display=swap" rel="stylesheet">
+<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Poppins:400,500&amp;display=swap'>
+</head>
+<style>
+
+body {
+  background-image: url("https://wallpapercave.com/wp/wp3205211.png");
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  font:15px/1.5 Arial, Helvetica,sans-serif;
+color:white; 
+
+}
+.bg-img:after {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+ 
+}
+.spinner-1:before{
+	content: "";
+	box-sizing: border-box;
+	position: absolute;
+	top:50%;
+	left: 50%;
+	height: 60px;
+	width: 60px;
+	margin-top: -30px;
+	margin-left: -30px;
+	border-radius: 50%;
+	border:6px solid transparent;
+	border-top-color: #0091EA;
+	animation: spinner 0.7s linear infinite;
+}
+@keyframes spinner {
+	to {
+	transform: rotate(360deg);
+	}
+}
+.button1 {
+    transition: all .5s ease;
+    color: #fff;
+    border: 3px solid white;
+    font-family:'Montserrat', sans-serif;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+    font-size: 17px;
+    background-color : transparent;
+    padding: 10px;
+    outline: none;
+    border-radius: 4px;
+}
+.button1:hover {
+    color:red;
+    background-color: #678fae;
+	border: 3px solid #678fae;
+}
+.file-upload{display:block;text-align:center;font-family: Helvetica, Arial, sans-serif;font-size: 12px;}
+.file-upload .file-select{display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;height:40px;line-height:40px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
+.file-upload .file-select .file-select-button{background:#dce4ec;padding:0 10px;display:inline-block;height:40px;line-height:40px;}
+.file-upload .file-select .file-select-name{line-height:40px;display:inline-block;padding:0 10px;}
+.file-upload .file-select:hover{border-color:#34495e;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload .file-select:hover .file-select-button{background:#34495e;color:#FFFFFF;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload.active .file-select{border-color:#3fa46a;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload.active .file-select .file-select-button{background:#3fa46a;color:#FFFFFF;transition:all .2s ease-in-out;-moz-transition:all .2s ease-in-out;-webkit-transition:all .2s ease-in-out;-o-transition:all .2s ease-in-out;}
+.file-upload .file-select input[type=file]{z-index:100;cursor:pointer;position:absolute;height:100%;width:100%;top:0;left:0;opacity:0;filter:alpha(opacity=0);}
+.file-upload .file-select.file-select-disabled{opacity:0.65;}
+.file-upload .file-select.file-select-disabled:hover{cursor:default;display:block;border: 2px solid #dce4ec;color: #34495e;cursor:pointer;height:40px;line-height:40px;margin-top:5px;text-align:left;background:#FFFFFF;overflow:hidden;position:relative;}
+.file-upload .file-select.file-select-disabled:hover .file-select-button{background:#dce4ec;color:#666666;padding:0 10px;display:inline-block;height:40px;line-height:40px;}
+.file-upload .file-select.file-select-disabled:hover .file-select-name{line-height:40px;display:inline-block;padding:0 10px;}
+</style>		  
+		  
+		  
+		
+		
+		
+<body >			
+	{% extends "bootstrap/base.html" %}
+{% block content %}
+{% if session['logged_in'] %}
+	{% if data %}
+	<h3>{{data}}</h3>
+	{% else %}
+	<a href="/logout" style="padding: 2px;color: white;">LOGOUT</a> <br> <br> 
+<!-- Main jumbotron for a primary marketing message or call to action -->
+
+
+<div class="container" style="color: white;">
+	<div class="w3-jumbo" style="font-size: 100px;font-family: 'Russo One', sans-serif;">
+	   <p>Simplified MLApp</p>
+	</div>
+		<p style="font-family: 'Quicksand', sans-serif;">Simplify Your Machine Learning and Data Exploration(Semi-Automated ML)</p>
+		<p><a href="{{ url_for('login')}}" type="button" class="btn btn-primary" > Refresh</a></p>
+	
+</div>
+	
+
+
+	<div class="container" style="font-family: 'Quicksand', sans-serif;">
+		<div class="main">
+			<div class="row">
+			  <div class="col-md-8" >
+				<h2 style="color: white;font-family: 'Russo One', sans-serif">Upload Your Dataset</h2>
+				  <p style="color: white;font-family: 'Quicksand', sans-serif;">We only accept csv format numerical data</p>
+					<form method=POST enctype=multipart/form-data action="{{ url_for('dataupload') }}" class="form-group">
+					  <div class="form-group">
+
+
+						<div class="file-upload" style="width:300px">
+							<div class="file-select" style="width:300px">
+							  <div class="file-select-button" style="font-family: 'Quicksand', sans-serif;" id="fileName">Choose File</div>
+							  <div class="file-select-name" style="font-family: 'Quicksand', sans-serif;"  id="noFile">No file chosen...</div> 
+							  <input type="file" name="csv_data" id="chooseFile">
+							</div>
+						  </div>
+<br>
+						<div class="custom-select" style="width:450px;">
+						  <select class="model_type" name="model_type" required>
+											<option value="" disabled selected>Select ML TYPE</option>
+											<option value="classification" required>Classification</option>
+											<option value="regression" required>Regression</option>
+						
+										  </select>
+						</div>
+					  <br/>
+					  </div>
+					  
+					  <input type="submit"  onclick="myAnalyser()" class="btn btn-primary mb-2"> 
+					  <input type="reset"  value="Reset" class="btn btn-danger mb-2">
+					</form>
+					<br/>
+			  </div>      
+			</div>
+	  
+	</div>
+	</div>
+
+	{% endif %}
+
+{% else %}
+
+
+<!-- <a href="/login">Login</a> 
+<a href="/register">Register</a> -->
+<div class="w3-container" style="  width: 300px;  margin-right: auto;margin-left: auto;margin-top: 200px;">
+	<h2 class="centre" style="color: white;font-family: 'Russo One', sans-serif; ">Login or Register</h2>
+
+				<div class="button1" style="width: 200px;color: white;margin-right: auto;margin-left: auto;">
+					<a href="/login" style="color: white;">Login</a>
+				</div>
+				<br>
+				<div class="button1" style="width: 200px;color: white;margin-right: auto;margin-left: auto;">
+					<a href="/register" style="color: white;"> Register</a>
+				</div>
+			
+	
+
+</div>
+
+
+</body>
+{% endif %}
+{% endblock %}
+<!-- Main Content Is Here -->
+ <!-- Styles for  Loading and Spinning -->
+
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" href="{{url_for('.static', filename='css/styles.css')}}">
+{% endblock %}
+
+
+
+
+
+<!-- Main External 3-Party JS Is Here -->
+
+{% block scripts %}
+
+{{ super() }} 
+<!-- Function to Show Spinning  -->
+<script>
+function myAnalyser() {
+  document.querySelector('.main div').style.display = 'none';
+//Hide the main division
+document.querySelector('.main').classList.add('spinner-1');
+// Server request
+setTimeout(() => {
+document.querySelector('.main').classList.remove('spinner-1');
+//Remove the animation
+document.querySelector('.main div').style.display = 'block';
+//Show the main division
+},5000);//Number of seconds to last
+}
+
+$('#chooseFile').bind('change', function () {
+  var filename = $("#chooseFile").val();
+  if (/^\s*$/.test(filename)) {
+    $(".file-upload").removeClass('active');
+    $("#noFile").text("No file chosen..."); 
+  }
+  else {
+    $(".file-upload").addClass('active');
+    $("#noFile").text(filename.replace("C:\\fakepath\\", "")); 
+  }
+});
+</script>
+
+
+{% endblock%}
+
+
+
+</html>>
